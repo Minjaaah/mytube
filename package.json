@@ -1,0 +1,24 @@
+{
+  "name": "mytube",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server/index.js",
+    "build": "npm run build:client",
+    "build:client": "npx vite build client --outDir ../server/public"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "@supabase/supabase-js": "^2.39.0",
+    "connect-pg-simple": "^9.0.1"
+  },
+  "devDependencies": {
+    "vite": "^5.0.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
