@@ -185,14 +185,11 @@ app.put('/api/profiles/:profileId/sources/:id', requireAuth, async (req, res) =>
 app.delete('/api/profiles/:profileId/sources/:id', requireAuth, async (req, res) => {
   const { error } = await supabase
     .from('sources')
-const display_order = existing?.length ? existing[0].display_order + 1 : 0;
-  const { data, error } = await supabase
-    .from('sources')
-    .insert({ profile_id: req.params.profileId, youtube_id, type, name, thumbnail_url, display_order })
-    .select()
-    .single();
+    .update({ status: 'removed', removed_at: new Date().toISOString() })
+    .eq('id', req.params.id)
+    .eq('profile_id', req.params.profileId);
   if (error) return res.status(400).json({ error: error.message });
-  res.json(data);
+  res.json({ ok: true });
 });
 app.put('/api/profiles/:profileId/sources/:id', requireAuth, async (req, res) => {
   const { data, error } = await supabase
