@@ -42,20 +42,18 @@ export default function Onboarding({ navigate }) {
   }
 
   const s = { maxWidth: '390px', margin: '0 auto', minHeight: '100vh', background: '#fff', padding: '52px 28px 40px', display: 'flex', flexDirection: 'column' }
-  const progress = { display: 'flex', gap: '4px', marginBottom: '40px' }
   const bar = (active) => ({ flex: 1, height: '3px', borderRadius: '2px', background: active ? '#D46A3A' : '#EDE8E2' })
   const title = { fontSize: '22px', fontWeight: 500, color: '#1A1A1A', marginBottom: '6px' }
   const sub = { fontSize: '13px', color: '#B0A090', lineHeight: 1.5, marginBottom: '24px' }
-  const input = { width: '100%', padding: '14px 16px', borderRadius: '12px', border: '0.5px solid #EDE8E2', background: '#FBF7F2', fontSize: '14px', outline: 'none', marginBottom: '14px', fontFamily: 'Inter, sans-serif' }
+  const inp = { width: '100%', padding: '14px 16px', borderRadius: '12px', border: '0.5px solid #EDE8E2', background: '#FBF7F2', fontSize: '14px', outline: 'none', marginBottom: '14px', fontFamily: 'Inter, sans-serif' }
   const btn = { width: '100%', padding: '16px', background: '#D46A3A', border: 'none', borderRadius: '14px', fontSize: '15px', fontWeight: 500, color: '#fff', cursor: 'pointer', fontFamily: 'Inter, sans-serif', marginTop: '16px' }
 
   return (
     <div style={s}>
-      <div style={progress}>
+      <div style={{ display: 'flex', gap: '4px', marginBottom: '40px' }}>
         {[1,2,3,4,5].map(i => <div key={i} style={bar(i <= step)} />)}
       </div>
-
-      {step === 1 && (
+  {step === 1 && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <div className="nunito" style={{ fontSize: '36px', fontWeight: 800, letterSpacing: '-1.5px', marginBottom: '12px' }}>
             my<span style={{ color: '#D46A3A' }}>tube</span>
@@ -73,8 +71,8 @@ export default function Onboarding({ navigate }) {
           <div style={{ fontSize: '11px', fontWeight: 500, color: '#D46A3A', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>step 2 of 5</div>
           <div style={title}>set your parent PIN</div>
           <div style={sub}>This protects your settings while your child uses the app.</div>
-          <input style={input} type="password" maxLength={4} placeholder="4-digit PIN" value={pin} onChange={e => setPin(e.target.value.replace(/\D/,'').slice(0,4))} />
-          <input style={input} type="password" maxLength={4} placeholder="confirm PIN" value={pinConfirm} onChange={e => setPinConfirm(e.target.value.replace(/\D/,'').slice(0,4))} />
+          <input style={inp} type="password" maxLength={4} placeholder="4-digit PIN" value={pin} onChange={e => setPin(e.target.value.slice(0,4))} />
+          <input style={inp} type="password" maxLength={4} placeholder="confirm PIN" value={pinConfirm} onChange={e => setPinConfirm(e.target.value.slice(0,4))} />
           {error && <div style={{ color: '#C84A2A', fontSize: '12px' }}>{error}</div>}
           <button style={{ ...btn, opacity: pin.length === 4 && pinConfirm.length === 4 ? 1 : 0.4 }} onClick={setupPin} disabled={loading}>
             {loading ? 'saving...' : 'continue'}
@@ -87,7 +85,7 @@ export default function Onboarding({ navigate }) {
           <div style={{ fontSize: '11px', fontWeight: 500, color: '#D46A3A', textTransform: 'uppercase', letterSpacing: '0.8px', marginBottom: '8px' }}>step 3 of 5</div>
           <div style={title}>create a child profile</div>
           <div style={sub}>You can add more profiles later.</div>
-          <input style={input} placeholder="child's name" value={profileName} onChange={e => setProfileName(e.target.value)} />
+          <input style={inp} placeholder="child's name" value={profileName} onChange={e => setProfileName(e.target.value)} />
           <div style={{ fontSize: '12px', fontWeight: 500, color: '#8A7A6E', marginBottom: '8px' }}>pick an avatar</div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '8px', marginBottom: '20px' }}>
             {AVATARS.map(a => (
@@ -112,9 +110,9 @@ export default function Onboarding({ navigate }) {
       {step === 4 && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '16px' }}>
           <div style={{ fontSize: '11px', fontWeight: 500, color: '#D46A3A', textTransform: 'uppercase', letterSpacing: '0.8px' }}>step 4 of 5</div>
-          <div style={title}>add channels in settings</div>
+          <div style={title}>almost done!</div>
           <div style={{ fontSize: '13px', color: '#B0A090', textAlign: 'center', lineHeight: 1.6 }}>
-            You can add YouTube channels from parent settings after setup.
+            Add YouTube channels from parent settings after setup.
           </div>
           <button style={btn} onClick={() => setStep(5)}>continue</button>
         </div>
@@ -124,14 +122,15 @@ export default function Onboarding({ navigate }) {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
           <div style={{ textAlign: 'center', marginTop: '40px' }}>
             <div style={{ fontSize: '48px', marginBottom: '16px' }}>✓</div>
-            <div style={title}>you're all set!</div>
+            <div style={title}>you are all set!</div>
             <div style={{ fontSize: '13px', color: '#B0A090', lineHeight: 1.6 }}>
-              Mytube is ready for {createdProfile?.name}.<br />Add channels from parent settings.
+              Mytube is ready for {createdProfile?.name}.
             </div>
           </div>
           <button style={btn} onClick={() => navigate('profiles')}>open mytube</button>
         </div>
       )}
+
     </div>
   )
 }
