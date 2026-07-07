@@ -40,7 +40,15 @@ app.post('/api/auth/signup', async (req, res) => {
     email, password, email_confirm: true
   });
   if (error) return res.status(400).json({ error: error.message });
-  res.json({ user: data.user });
+
+  // admin.createUser does not establish a session — sign in immediately,
+  // same as the /api/auth/signin route does, so req.session.user is set.
+  const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+  if (signInError) return res.status(400).json({ error: signInError.message });
+
+  req.session.user = signInData.user;
+  req.session.access_token = signInData.session.access_token;
+  res.json({ user: signInData.user });
 });
 
 app.post('/api/auth/signin', async (req, res) => {
