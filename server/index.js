@@ -163,7 +163,7 @@ app.post('/api/profiles/:profileId/sources', requireAuth, async (req, res) => {
   const { youtube_id, type, name, thumbnail_url } = req.body;
   const { data: existing } = await supabase
     .from('sources')
-    .select('id')
+    .select('display_order')
     .eq('profile_id', req.params.profileId)
     .eq('status', 'active')
     .order('display_order', { ascending: false })
