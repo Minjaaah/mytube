@@ -174,6 +174,7 @@ app.post('/api/profiles/:profileId/sources', requireAuth, async (req, res) => {
     .insert({ profile_id: req.params.profileId, youtube_id, type, name, thumbnail_url, display_order })
     .select()
     .single();
+  if (error) console.error('ADD CHANNEL ERROR:', error);
   if (error) return res.status(400).json({ error: error.message });
   res.json(data);
 });
